@@ -1,0 +1,103 @@
+#!/usr/bin/env bash
+
+
+sudo ./toggle nonsense 
+return=$?
+if [ $return == 1 ] 
+then
+  echo "PASSED: Invalid Input Leads to EXIT STATUS 1"
+else
+  echo "FAILED: INVALID Input OK"
+fi
+
+
+sudo ./toggle --pin nonsense
+return=$?
+if [ $return == 1 ] 
+then
+  echo "PASSED: Inavlid Input Leads to EXIT STATUS 1"
+else
+  echo "FAILED: INVALID Input OK"
+fi
+
+for num in {17..27..5}
+do
+  sudo ./toggle --pin $num nonsense
+  return=$?
+  if [ $return == 1 ] 
+  then
+    echo "PASSED: Inavlid Input Leads to EXIT STATUS 1"
+  else
+    echo "FAILED: Invalid Input OK"  
+fi
+done 
+
+for num in {17..27..5}
+do
+  sudo ./toggle --pin $num --set nonsense
+  return=$?
+  if [ $return == 1 ] 
+  then
+    echo "PASSED:./toggle --pin $num --set ns: Inavlid Input Leads to EXIT STATUS 1"
+  fi
+done
+
+for num in {17..27..5}
+do
+  sudo ./toggle --pin $num --set
+  return=$?
+  if [ $return == 1 ] 
+  then
+    echo "PASSED:./toggle --pin $num --set: Inavlid Input Leads to EXIT STATUS 1"
+  fi
+done
+
+
+for num in {17..27..5}
+do
+  sudo ./toggle --pin $num --set 1 nonsense
+  return=$?
+  if [ $return == 1 ] 
+  then
+    echo "PASSED:./toggle --pin $num --set 1 ns: Inavlid Input Leads to EXIT STATUS 1"
+  fi
+done 
+
+for num in {17..27..5}
+do
+  sudo ./toggle --pin $num --set 0 nonsense
+  return=$?
+  if [ $return == 1 ] 
+  then
+    echo "PASSED:./toggle --pin $num --set 0 ns: Inavlid Input Leads to EXIT STATUS 1"
+  fi
+done 
+
+for num in {17..27..5}
+do
+  sudo ./toggle --pin $num --read nonsense
+  return=$?
+  if [ $return == 1 ] 
+  then
+    echo "PASSED: ./toggle --pin $num --read ns:Inavlid Input Leads to EXIT STATUS 1"
+  fi
+done 
+
+for num in {17..27..5}
+do
+  sudo ./toggle --pin $num --set 1
+  if [ "`sudo ./toggle --pin $num --read`" == "1" ]
+  then
+    echo "PASSED: Setting pin $num to 1"
+  else
+    echo "FAILED: Setting pin $num to 1"
+  fi
+
+  sudo ./toggle --pin $num --set 0
+  if [ "`sudo ./toggle --pin $num --read`" == "0" ]
+  then
+    echo "PASSED: Setting pin $num to 0"
+  else
+    echo "FAILED: Setting pin $num to 0"
+  fi
+done     
